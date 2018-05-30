@@ -56,7 +56,10 @@ def main():
                 if i.startswith("www.") or i in ["usi.uchicago.edu", "cns.utexas.edu"]:
                     assert website in ["www.insureakid.org", "www.secondharvest.org"] or not website, (website, i)
                     website = i
-                elif i.startswith("To ") or i.startswith("A gift to ") or i.startswith("In support of ") or i.startswith("Funds provided to "):
+                elif (i.startswith("To ") or
+                      i.startswith("A gift to ") or
+                      i.startswith("In support of ") or
+                      i.startswith("Funds provided to ")):
                     assert not purpose
                     purpose = i
                 elif i.startswith("$"):
