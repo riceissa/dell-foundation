@@ -92,7 +92,7 @@ def main():
                 mysql_quote("month"),  # donation_date_precision
                 mysql_quote("donation log"),  # donation_date_basis
                 mysql_quote(focus_area),  # cause_area
-                mysql_quote("http://" + website),  # url
+                mysql_quote("https://web.archive.org/web/20080224064534/http://www.msdf.org:80/priorities/MasterList.aspx"),  # url
                 mysql_quote("FIXME"),  # donor_cause_area_url
                 mysql_quote(("Program: " + program + ". " if program else "") + purpose),  # notes
                 mysql_quote(""),  # affected_countries
