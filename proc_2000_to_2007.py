@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import pdb
-
 import datetime
 from bs4 import BeautifulSoup
 
@@ -48,7 +46,6 @@ def main():
             # In other words, we have to inspect the content of each line to
             # see which variable should be set.
             for i in map(str.strip, filter(bool, td.text.split("\n"))):
-                print("DEBUG:", i)
                 try:
                     test_date = datetime.datetime.strptime(i, "%B %Y").strftime("%Y-%m-%d")
                     assert not date, (date, i)
@@ -67,7 +64,6 @@ def main():
                     amount = i
                     amount = amount.replace("$", "").replace(",", "")
                     assert int(amount)
-                    print("DEBUG2:", i)
                 # In the HTML, the program is listed first, then the grantee
                 # (for grants that list both a program and grantee), so set the
                 # grantee only if program is already set.
@@ -77,6 +73,12 @@ def main():
                 else:
                     assert not program, (program, i)
                     program = i
+            # If both program and grantee are specified, the former is
+            # specified first, but if only one is specified, it must be the
+            # grantee, so swap the two.
+            if program and not grantee:
+                grantee = program
+                program = ""
             print(("    " if first else "    ,") + "(" + ",".join([
                 mysql_quote("Michael & Susan Dell Foundation"),  # donor
                 mysql_quote(grantee),  # donee
@@ -85,9 +87,9 @@ def main():
                 mysql_quote("month"),  # donation_date_precision
                 mysql_quote("donation log"),  # donation_date_basis
                 mysql_quote(focus_area),  # cause_area
-                mysql_quote(website),  # url
+                mysql_quote("http://" + website),  # url
                 mysql_quote("FIXME"),  # donor_cause_area_url
-                mysql_quote(program + "###" + purpose),  # notes
+                mysql_quote(("Program: " + program + ". " if program else "") + purpose),  # notes
                 mysql_quote(""),  # affected_countries
                 mysql_quote(""),  # affected_states
                 mysql_quote(""),  # affected_cities
