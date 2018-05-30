@@ -31,6 +31,7 @@ def main():
                 continue
             if td.text.startswith("FOCUS AREA: "):
                 focus_area = td.text[len("FOCUS AREA: "):]
+                continue
             date = ""
             grantee = ""
             program = ""
@@ -59,6 +60,7 @@ def main():
                 elif (i.startswith("To ") or
                       i.startswith("A gift to ") or
                       i.startswith("In support of ") or
+                      i.startswith("Create a regional hub ") or
                       i.startswith("Funds provided to ")):
                     assert not purpose
                     purpose = i
@@ -97,7 +99,7 @@ def main():
                 mysql_quote(""),  # affected_states
                 mysql_quote(""),  # affected_cities
                 mysql_quote(""),  # affected_regions
-            ]) + ")")
+            ]).replace("\u00a0", " ") + ")")
             first = False
         print(";")
 
