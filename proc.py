@@ -53,7 +53,7 @@ def main():
                 affected_regions = location
 
             print(("    " if first else "    ,") + "(" + ",".join([
-                mysql_quote("Michael & Susan Dell Foundation"),  # donor
+                mysql_quote("Michael and Susan Dell Foundation"),  # donor
                 mysql_quote(grantee),  # donee
                 amount,  # amount
                 mysql_quote(""),  # donation_date
